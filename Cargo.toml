@@ -13,6 +13,7 @@ clap = { version = "4", features = ["derive", "cargo", "env", "unicode"] }
 ansi_term = "0.12"
 dirs = "5"
 jiff = "0.1.1"
+figlet-rs = "0.1.5"
 
 [dev-dependencies]
 pretty_assertions = "1"
