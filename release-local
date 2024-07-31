@@ -2,4 +2,4 @@
 
 cargo build --release
 cp target/release/pom ~/bin/
-pom -V
+focus -V
