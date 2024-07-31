@@ -1,3 +1,3 @@
-# Pom
+# Focus
 
-A pomodoro timer in the cli
+A Pomodoro timer in the cli
