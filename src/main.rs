@@ -46,10 +46,11 @@ fn main() {
         now = Zoned::now().datetime();
       }
 
-      display_notification();
-      play_sound();
     });
-  })
+  });
+
+  display_notification();
+  play_sound();
 }
 
 
