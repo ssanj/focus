@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cargo build --release
-cp target/release/pom ~/bin/
+cp target/release/focus ~/bin/
 focus -V
