@@ -12,7 +12,7 @@ pub fn display_timer(minutes: i32) {
         let diff = now_plus_minutes_requested.since(now).unwrap();
 
         let standard_font = FIGfont::standard().unwrap();
-        let diff_string = format!("{}:{}:{}", diff.get_hours(), diff.get_minutes(), diff.get_seconds());
+        let diff_string = format!("{:02}:{:02}:{:02}", diff.get_hours(), diff.get_minutes(), diff.get_seconds());
         let fig_diff = standard_font.convert(&diff_string).unwrap();
         let lines = fig_diff.height;
         println!("{}", standard_font.convert(&diff_string).unwrap());
@@ -28,7 +28,7 @@ pub fn display_timer(minutes: i32) {
           }
 
           let diff = now_plus_minutes_requested.since(now).unwrap();
-          let diff_string = format!("{}:{}:{}", diff.get_hours(), diff.get_minutes(), diff.get_seconds());
+          let diff_string = format!("{:02}:{:02}:{:02}", diff.get_hours(), diff.get_minutes(), diff.get_seconds());
           println!("{}", standard_font.convert(&diff_string).unwrap());
           thread::sleep(Duration::from_millis(250));
           now = Zoned::now().datetime();
