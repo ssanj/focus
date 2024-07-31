@@ -9,8 +9,7 @@ pub fn play_sound() {
   let (_stream, stream_handle) = OutputStream::try_default().unwrap();
   let sink = Sink::try_new(&stream_handle).unwrap();
 
-  // TODO: Include bytes for this sound in the executable
-  let file = BufReader::new(File::open("/Users/sanj/Downloads/Computer_Magic-Microsift-1901299923.mp3").unwrap());
+  let file = BufReader::new(File::open("src/assets/sounds/default.mp3").unwrap());
   let source = Decoder::new(file).unwrap();
   sink.append(source.convert_samples::<f32>());
   sink.sleep_until_end()
