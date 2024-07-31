@@ -752,6 +752,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "focus"
+version = "0.1.0"
+dependencies = [
+ "ansi_term",
+ "assert_cmd",
+ "clap",
+ "dir-diff",
+ "dirs",
+ "figlet-rs",
+ "jiff",
+ "notify-rust",
+ "predicates",
+ "pretty_assertions",
+ "rodio",
+ "serde",
+ "serde_json",
+ "similar",
+ "walkdir",
+]
+
+[[package]]
 name = "futures-core"
 version = "0.3.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1319,27 +1340,6 @@ dependencies = [
  "rustix",
  "tracing",
  "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "pom"
-version = "0.1.0"
-dependencies = [
- "ansi_term",
- "assert_cmd",
- "clap",
- "dir-diff",
- "dirs",
- "figlet-rs",
- "jiff",
- "notify-rust",
- "predicates",
- "pretty_assertions",
- "rodio",
- "serde",
- "serde_json",
- "similar",
- "walkdir",
 ]
 
 [[package]]
