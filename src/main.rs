@@ -12,9 +12,13 @@ fn main() {
   let args = cli::get_cli_args();
   let minutes = args.minutes as i32;
   let message = args.message;
+  let no_sound = args.no_sound;
 
   display_timer(minutes);
   display_notification(message);
-  play_sound(); // This blocks the thread, run it last
+
+  if !no_sound{
+    play_sound(); // This blocks the thread, run it last
+  }
 }
 

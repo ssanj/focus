@@ -15,6 +15,10 @@ pub struct Args {
    /// Message to display, when the timer is up.
    #[arg(long, short='s')]
    pub message: Option<String>,
+
+   /// Turn off melody at the end of the timer
+   #[arg(long)]
+   pub no_sound: bool,
 }
 
 pub fn get_cli_args() -> Args {
