@@ -23,7 +23,7 @@ fn main() {
       // TODO: Have a way to specify a font file
       // let standard_font = FIGfont::from_file("bulbhead.flf").unwrap();
       let mut now: DateTime = Zoned::now().datetime();
-      let now_plus_five = now.checked_add(25.seconds()).unwrap();
+      let now_plus_five = now.checked_add(25.minutes()).unwrap();
       let diff = now_plus_five.since(now).unwrap();
       let diff_string = format!("{}:{}:{}", diff.get_hours(), diff.get_minutes(), diff.get_seconds());
       let fig_diff = standard_font.convert(&diff_string).unwrap();
