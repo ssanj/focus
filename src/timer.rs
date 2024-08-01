@@ -4,11 +4,11 @@ use jiff::{civil::DateTime, ToSpan, Zoned};
 use figlet_rs::FIGfont;
 
 
-pub fn display_timer(minutes: i32) {
+pub fn display_timer(minutes: u32) {
   thread::scope(|s| {
       s.spawn(|| {
         let mut now: DateTime = Zoned::now().datetime();
-        let now_plus_minutes_requested = now.checked_add(minutes.minutes()).unwrap();
+        let now_plus_minutes_requested = now.checked_add((minutes as i32).minutes()).unwrap();
         let diff = now_plus_minutes_requested.since(now).unwrap();
 
         let standard_font = FIGfont::standard().unwrap();
@@ -35,4 +35,8 @@ pub fn display_timer(minutes: i32) {
         }
       });
     });
+}
+
+pub fn dont_display_timer(minutes: u32) {
+  thread::sleep(Duration::from_secs((minutes * 60).into()))
 }

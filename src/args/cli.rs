@@ -19,6 +19,11 @@ pub struct Args {
    /// Turn off melody at the end of the timer
    #[arg(long)]
    pub no_sound: bool,
+
+   /// Turn off count down
+   #[arg(long)]
+   pub no_countdown: bool,
+
 }
 
 pub fn get_cli_args() -> Args {
