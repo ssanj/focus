@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use clap::Parser;
 
 /// A Pomodoro timer in the cli
@@ -28,6 +30,10 @@ pub struct Args {
    #[arg(long)]
    pub no_notification: bool,
 
+   /// Supply an alternate Figlet font.
+   /// See: http://www.figlet.org/fontdb.cgi
+   #[arg(long)]
+   pub figlet_file: Option<PathBuf>,
 }
 
 pub fn get_cli_args() -> Args {

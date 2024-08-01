@@ -1,21 +1,26 @@
-use std::thread;
+use std::{path::PathBuf, thread};
 use std::time::Duration;
 use jiff::{civil::DateTime, ToSpan, Zoned};
 use figlet_rs::FIGfont;
 
 
-pub fn display_timer(minutes: u32) {
+pub fn display_timer(figlet_file: Option<PathBuf>, minutes: u32) {
   thread::scope(|s| {
       s.spawn(|| {
         let mut now: DateTime = Zoned::now().datetime();
         let now_plus_minutes_requested = now.checked_add((minutes as i32).minutes()).unwrap();
         let diff = now_plus_minutes_requested.since(now).unwrap();
 
-        let standard_font = FIGfont::standard().unwrap();
+        let default_font = FIGfont::standard().unwrap();
+        let figlet_font =
+          figlet_file
+            .map(|f| FIGfont::from_file(&f.to_string_lossy()).unwrap()) // TODO: We need better errors from here
+            .unwrap_or(default_font);
+
         let diff_string = format!("{:02}:{:02}:{:02}", diff.get_hours(), diff.get_minutes(), diff.get_seconds());
-        let fig_diff = standard_font.convert(&diff_string).unwrap();
+        let fig_diff = figlet_font.convert(&diff_string).unwrap();
         let lines = fig_diff.height;
-        println!("{}", standard_font.convert(&diff_string).unwrap());
+        println!("{}", fig_diff);
 
         // Clear used lines from bottom to top
         // We go from bottom to top, so the next line is ready to be printed
@@ -29,7 +34,7 @@ pub fn display_timer(minutes: u32) {
 
           let diff = now_plus_minutes_requested.since(now).unwrap();
           let diff_string = format!("{:02}:{:02}:{:02}", diff.get_hours(), diff.get_minutes(), diff.get_seconds());
-          println!("{}", standard_font.convert(&diff_string).unwrap());
+          println!("{}", figlet_font.convert(&diff_string).unwrap());
           thread::sleep(Duration::from_millis(250));
           now = Zoned::now().datetime();
         }
