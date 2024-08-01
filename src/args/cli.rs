@@ -12,7 +12,7 @@ pub struct Args {
    #[arg(long, short)]
    pub minutes: u8,
 
-   /// Message to display, when the timer is up.
+   /// Notification message to display, when the timer is up.
    #[arg(long, short='s')]
    pub message: Option<String>,
 
@@ -20,9 +20,13 @@ pub struct Args {
    #[arg(long)]
    pub no_sound: bool,
 
-   /// Turn off count down
+   /// Turn off countdown
    #[arg(long)]
    pub no_countdown: bool,
+
+   /// Turn off notification
+   #[arg(long)]
+   pub no_notification: bool,
 
 }
 

@@ -15,6 +15,7 @@ fn main() {
   let message = args.message;
   let no_sound = args.no_sound;
   let no_countdown = args.no_countdown;
+  let no_notification = args.no_notification;
 
   if no_countdown {
     dont_display_timer(minutes)
@@ -22,7 +23,9 @@ fn main() {
     display_timer(minutes)
   }
 
-  display_notification(message);
+  if !no_notification {
+    display_notification(message);
+  }
 
   if !no_sound{
     play_sound(); // This blocks the thread, run it last
