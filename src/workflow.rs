@@ -11,6 +11,7 @@ pub fn perform() {
   let no_countdown = args.no_countdown;
   let no_notification = args.no_notification;
   let figlet_file = args.figlet_file;
+  let sound_file = args.sound_file;
 
   if no_countdown {
     dont_display_timer(minutes)
@@ -23,6 +24,6 @@ pub fn perform() {
   }
 
   if !no_sound{
-    play_sound(); // This blocks the thread, run it last
+    play_sound(sound_file); // This blocks the thread, run it last
   }
 }

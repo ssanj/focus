@@ -34,6 +34,10 @@ pub struct Args {
    /// See: http://www.figlet.org/fontdb.cgi
    #[arg(long)]
    pub figlet_file: Option<PathBuf>,
+
+   /// A sound file to use. Accepted formats are .mp3, .wave, .flac and .vorbis
+   #[arg(long)]
+   pub sound_file: Option<PathBuf>,
 }
 
 pub fn get_cli_args() -> Args {
