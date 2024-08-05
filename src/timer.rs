@@ -3,22 +3,33 @@ use std::time::Duration;
 use jiff::{civil::DateTime, ToSpan, Zoned};
 use figlet_rs::FIGfont;
 
+use crate::error::{FocusAction, FocusError};
 
-pub fn display_timer(figlet_file: Option<PathBuf>, minutes: u32) {
+pub fn display_timer(figlet_file: Option<PathBuf>, minutes: u32) -> FocusAction {
   thread::scope(|s| {
-      s.spawn(|| {
+      let handle = s.spawn(|| {
         let mut now: DateTime = Zoned::now().datetime();
         let now_plus_minutes_requested = now.checked_add((minutes as i32).minutes()).unwrap();
         let diff = now_plus_minutes_requested.since(now).unwrap();
 
-        let default_font = FIGfont::standard().unwrap();
-        let figlet_font =
+        let default_font = FIGfont::standard().map_err(|e| FocusError::CouldNotLoadDefaultFont(e.to_string()))?;
+
+        let figlet_font_result: Option<Result<FIGfont, FocusError>> =
           figlet_file
-            .map(|f| FIGfont::from_file(&f.to_string_lossy()).unwrap()) // TODO: We need better errors from here
-            .unwrap_or(default_font);
+            .map(|f| {
+              FIGfont::from_file(&f.to_string_lossy()).map_err(|e| FocusError::CouldNotOpenCustomFigletFont(f.to_string_lossy().to_string(), e.to_string()))
+            });
+
+
+        let figlet_font = figlet_font_result.unwrap_or(Ok(default_font))?;
 
         let diff_string = format!("{:02}:{:02}:{:02}", diff.get_hours(), diff.get_minutes(), diff.get_seconds());
-        let fig_diff = figlet_font.convert(&diff_string).unwrap();
+
+        let fig_diff =
+          figlet_font
+            .convert(&diff_string)
+            .ok_or_else(|| FocusError::CouldNotConvertStringToFiglet(diff_string.clone()))?;
+
         let lines = fig_diff.height;
         println!("{}", fig_diff);
 
@@ -37,9 +48,13 @@ pub fn display_timer(figlet_file: Option<PathBuf>, minutes: u32) {
           println!("{}", figlet_font.convert(&diff_string).unwrap());
           thread::sleep(Duration::from_millis(250));
           now = Zoned::now().datetime();
-        }
+        };
+
+        Ok(())
       });
-    });
+
+      handle.join().unwrap()
+    })
 }
 
 pub fn dont_display_timer(minutes: u32) {

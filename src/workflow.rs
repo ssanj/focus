@@ -1,9 +1,17 @@
 use crate::args::cli;
+use crate::error::FocusAction;
 use crate::timer::{display_timer, dont_display_timer};
 use crate::notification::display_notification;
 use crate::sound::play_sound;
 
 pub fn perform() {
+  match perform_action() {
+    Ok(_) => (),
+    Err(error) => eprintln!("{}", error)
+  }
+}
+
+pub fn perform_action() -> FocusAction {
   let args = cli::get_cli_args();
   let minutes = args.minutes.into();
   let message = args.message;
@@ -16,14 +24,16 @@ pub fn perform() {
   if no_countdown {
     dont_display_timer(minutes)
   } else {
-    display_timer(figlet_file, minutes)
+    display_timer(figlet_file, minutes)?
   }
 
   if !no_notification {
-    display_notification(message);
+    display_notification(message)?
   }
 
   if !no_sound{
-    play_sound(sound_file); // This blocks the thread, run it last
+    play_sound(sound_file)? // This blocks the thread, run it last
   }
+
+  Ok(())
 }
