@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use clap::{Args as ClapArgs, Parser};
 
-/// A Pomodoro timer in the cli
+/// A Pomodoro timer on the cli
 #[derive(Parser, Debug, Clone)]
 #[command(author, version, about)]
 pub struct Args {

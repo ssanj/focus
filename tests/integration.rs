@@ -4,10 +4,10 @@ use std::format as s;
 
 #[test]
 fn returns_version() -> Result<(), Box<dyn std::error::Error>> {
-  let mut cmd = Command::cargo_bin("pom").unwrap();
+  let mut cmd = Command::cargo_bin("focus").unwrap();
 
   let version = env!("CARGO_PKG_VERSION");
-  let expected_version_string = s!("pom {}\n", version);
+  let expected_version_string = s!("focus {}\n", version);
 
   cmd
     .arg("-V")
