@@ -10,12 +10,16 @@ pub enum FocusError {
   CouldNotOpenCustomFigletFont(String, String),
   CouldNotConvertStringToFiglet(String),
   CouldNotCreateNotification(String),
+  InvalidTimeCombinationMultipleTimesSupplied,
+  InvalidTimeCombinationNoTimeSupplied,
 }
 
 
 impl fmt::Display for FocusError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
       let item = match self {
+        FocusError::InvalidTimeCombinationNoTimeSupplied => "No time duration supplied".to_owned(),
+        FocusError::InvalidTimeCombinationMultipleTimesSupplied => "Multiple time durations supplied. Try using one".to_owned(),
         FocusError::CouldNotOpenSoundDevice(error) => format!("Could not open hardware audio device due to: {error}"),
         FocusError::CouldNotOpenSoundFile(file, error) => format!("Could not open sound file: {file}, due to: {error}"),
         FocusError::CouldNotCreateSinkForAudioPlayback(error) => format!("Could not create an audio stream for audio playback due to: {error}"),
@@ -31,3 +35,4 @@ impl fmt::Display for FocusError {
 }
 
 pub type FocusAction = Result<(), FocusError>;
+pub type FocusType<A> = Result<A, FocusError>;

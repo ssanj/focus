@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use clap::Parser;
+use clap::{Args as ClapArgs, Parser};
 
 /// A Pomodoro timer in the cli
 #[derive(Parser, Debug, Clone)]
@@ -10,12 +10,11 @@ pub struct Args {
    #[arg(long)]
    pub verbose: bool,
 
-   /// Number of minutes to run the timer for
-   #[arg(long, short)]
-   pub minutes: u8,
+   #[command(flatten)]
+   pub time: Time,
 
    /// Notification message to display, when the timer is up.
-   #[arg(long, short='s')]
+   #[arg(long, short='g')]
    pub message: Option<String>,
 
    /// Turn off melody at the end of the timer
@@ -38,6 +37,20 @@ pub struct Args {
    /// A sound file to use. Accepted formats are .mp3, .wave, .flac and .vorbis
    #[arg(long)]
    pub sound_file: Option<PathBuf>,
+}
+
+
+#[derive(ClapArgs, Debug, Clone)]
+#[group(required = true, multiple = false)]
+pub struct Time {
+
+   /// Number of minutes to run the timer for
+  #[arg(short)]
+  pub minutes: Option<u8>,
+
+  /// Number of seconds to run the timer for
+  #[arg(short)]
+  pub seconds: Option<u8>,
 }
 
 pub fn get_cli_args() -> Args {
