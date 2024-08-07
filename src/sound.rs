@@ -24,15 +24,14 @@ pub fn play_sound(sound_file: Option<PathBuf>) -> FocusAction {
       File::open(&file_name)
         .map_err(|e| FocusError::CouldNotOpenSoundFile(file_name.to_string_lossy().to_string(), e.to_string()))
         .map(|mut file| {
-          let _ = file.read_to_end(&mut sound_buffer).expect("could not read sound file into buffer");
-          ()
+          file.read_to_end(&mut sound_buffer).expect("could not read sound file into buffer");
         })
     })
     .unwrap_or_else(|| {
       Ok(
           sound_buffer
             .write_all(DEFAULT_SOUND)
-            .map(|_| ()).unwrap()
+            .expect("could not write default sound file into buffer")
       )
     })?;
 
